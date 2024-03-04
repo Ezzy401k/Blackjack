@@ -4,6 +4,7 @@ import art
 
 def deal_card():
     """Function to deal a random card from the deck."""
+    # A can be 11 or 1 based on the situation while J, Q, K are valued as 10.
     cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
     return random.choice(cards)
 
