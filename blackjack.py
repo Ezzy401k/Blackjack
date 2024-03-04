@@ -17,73 +17,104 @@ def calculate_score(cards):
         cards.append(1)
     return sum(cards)
 
+win = False
 play_again = False
+total_stake = 0 
+total_money = 10000
+draw = 0
 
 while not play_again:
     user_cards = []
     computer_cards = []
     game_end = False
+    if draw == 1:
+        total_money = total_money
+    elif win == True:
+        total_money += total_stake
+    elif win == False:
+        total_money -= total_stake
 
-    # Dealing initial cards to the player and the computer
-    for i in range(2):
-        user_cards.append(deal_card())
-        computer_cards.append(deal_card())
+    if total_money > 0:
+        # Dealing initial cards to the player and the computer
+        total_stake = 0
+        for i in range(2):
+            user_cards.append(deal_card())
+            computer_cards.append(deal_card())
 
-    # User's turn
-    while not game_end:
-        user_score = calculate_score(user_cards)
-        computer_score = calculate_score(computer_cards)
-        print(art.logo)
-        print("Welcome to Blackjack!")
-        print(f"Your cards are: {user_cards}, with a sum of: {user_score}")
-        print(f"Computer's first card is: {computer_cards[0]}")
-        
-        # Checking if the game should end based on current scores
-        if user_score == 21 or computer_score == 21 or user_score > 21:
-            game_end = True
-        else:
-            draw_card = input("Do you want to draw another card, type 'hit' or 'stand': ")
-            if draw_card == "hit":
-                user_cards.append(deal_card())
-                computer_score = calculate_score(computer_cards)
-                os.system('cls')  # Clearing the screen after drawing a card
-            else:
+        # User's turn
+        while not game_end:
+            user_score = calculate_score(user_cards)
+            computer_score = calculate_score(computer_cards)
+            print(art.logo)
+            
+            print(f"Welcome to Blackjack! \nYou have {total_money}$ stake {total_stake}$.")
+            print(f"Your cards are: {user_cards}, with a sum of: {user_score}")
+            print(f"Computer's first card is: {computer_cards[0]}")
+            
+            stake = int(input("How much money will you stake? "))
+            total_stake += stake
+
+            # Checking if the game should end based on current scores
+            if user_score == 21 or computer_score == 21 or user_score > 21:
                 game_end = True
-
-    # Computer's turn
-    while computer_score != 21 and computer_score < 17:  # Computer draws cards until it reaches 17 or above
-        computer_cards.append(deal_card())
-        computer_score = calculate_score(computer_cards)
-
-    def compare(user_score, computer_score):
-        """Function to compare the scores and determine the winner."""
-        if computer_score == user_score:
-            return "It's a DRAW😑"
-        elif computer_score == 21 or computer_score == 21:
-            return "Computer has Blackjack😱, YOU LOSE!"
-        elif user_score == 21 or user_score == 21:
-            return "You have Blackjack😲, YOU WIN!"
-        elif user_score > 21:
-            return "You have a bust card😓, YOU LOSE!"
-        elif computer_score > 21:
-            return "Computer has a bust card🤓, YOU WIN!"
-        else:
-            if user_score > computer_score:
-                return "YOU WIN!🥳"
             else:
-                return "YOU LOSE!😭"
+                draw_card = input("Do you want to draw another card, type 'hit' or 'stand': ")
+                if draw_card == "hit":
+                    user_cards.append(deal_card())
+                    computer_score = calculate_score(computer_cards)
+                    # stake2 = int(input("Do you want increase the stake? if yes input the amount else enter '0'. "))
+                    # total_stake = stake + stake2
+                    os.system('cls')  # Clearing the screen after drawing a card
+                else:
+                    game_end = True
 
-    os.system('cls')  # Clearing the screen before displaying results
-    print(art.logo)
-    print(f"Your cards are: {user_cards}, sum = {user_score}")
-    print(f"Computer's cards are: {computer_cards}, sum = {computer_score}")
-    print(compare(user_score, computer_score))
+        # Computer's turn
+        while computer_score != 21 and computer_score < 17:  # Computer draws cards until it reaches 17 or above
+            computer_cards.append(deal_card())
+            computer_score = calculate_score(computer_cards)
+        def compare(user_score, computer_score):
+            """Function to compare the scores and determine the winner."""
+            global win
+            global draw
 
-    again = input("Do you want to play again, 'yes' or 'no': ")
+            if computer_score == user_score:
+                draw = 1
+                return "It's a DRAW😑"
+            elif computer_score == 21 or computer_score == 21:
+                win = False
+                return f"Computer has Blackjack😱, YOU LOSE! -{total_stake}$"
+            elif user_score == 21 or user_score == 21:
+                win = True
+                return f"You have Blackjack😲, YOU WIN! +{total_stake}$"
+            elif user_score > 21:
+                win = False
+                return f"You have a bust card😓, YOU LOSE! -{total_stake}$"
+            elif computer_score > 21:
+                win = True
+                return f"Computer has a bust card🤓, YOU WIN! +{total_stake}$"
+            else:
+                if user_score > computer_score:
+                    win = True
+                    return f"YOU WIN!🥳 +{total_stake}"
+                else:
+                    win = False
+                    return f"YOU LOSE!😭 -{total_stake}"
 
-    if again == "yes":
-        os.system('cls')  # Clearing the screen for the next game
+        os.system('cls')  # Clearing the screen before displaying results
+        print(art.logo)
+        print(f"Your cards are: {user_cards}, sum = {user_score}")
+        print(f"Computer's cards are: {computer_cards}, sum = {computer_score}")
+        print(compare(user_score, computer_score))
+
+        again = input("Do you want to play again, 'yes' or 'no': ")
+
+        if again == "yes":
+            os.system('cls')  # Clearing the screen for the next game
+        else:
+            play_again = True
+    
     else:
         play_again = True
+        print(f"The amount you have is {total_money}$, you lost all your money!")
 
 input("Tap Enter to Exit!")  # Waiting for user input before exiting
