@@ -30,6 +30,7 @@ while not play_again:
         user_score = calculate_score(user_cards)
         computer_score = calculate_score(computer_cards)
         print(art.logo)
+        print("Welcome to Blackjack!")
         print(f"Your cards are: {user_cards}, with a sum of: {user_score}")
         print(f"Computers first card is: {computer_cards[0]}")
         if user_score == 21 or computer_score == 21 or user_score > 21:
