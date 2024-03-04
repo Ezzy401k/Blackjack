@@ -41,8 +41,8 @@ while not play_again:
         if user_score == 21 or computer_score == 21 or user_score > 21:
             game_end = True
         else:
-            draw_card = input("Do you want to draw another card, 'y' or 'n': ")
-            if draw_card == "y":
+            draw_card = input("Do you want to draw another card, type 'hit' or 'stand': ")
+            if draw_card == "hit":
                 user_cards.append(deal_card())
                 computer_score = calculate_score(computer_cards)
                 os.system('cls')  # Clearing the screen after drawing a card
@@ -78,9 +78,9 @@ while not play_again:
     print(f"Computer's cards are: {computer_cards}, sum = {computer_score}")
     print(compare(user_score, computer_score))
 
-    again = input("Do you want to play again, 'y' or 'n': ")
+    again = input("Do you want to play again, 'yes' or 'no': ")
 
-    if again == "y":
+    if again == "yes":
         os.system('cls')  # Clearing the screen for the next game
     else:
         play_again = True
