@@ -47,13 +47,10 @@ Welcome to Blackjack!
 ```
 ```
 Your cards are: [10,5], with a sum of: 15
-```
-```
 Computers first card is: 8
-```
-```
 Do you want to draw another card, 'y' or 'n':
 ```
+
 ## Author
 
 [Esrael Mekdem](https://github.com/Ezzy401k)
