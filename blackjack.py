@@ -17,6 +17,34 @@ def calculate_score(cards):
         cards.append(1)
     return sum(cards)
 
+def compare(user_score, computer_score):
+            """Function to compare the scores and determine the winner."""
+            global win
+            global draw
+
+            if computer_score == user_score:
+                draw = 1
+                return "It's a DRAW😑"
+            elif computer_score == 21 or computer_score == 21:
+                win = False
+                return f"Computer has Blackjack😱, YOU LOSE! -{total_stake}$"
+            elif user_score == 21 or user_score == 21:
+                win = True
+                return f"You have Blackjack😲, YOU WIN! +{total_stake}$"
+            elif user_score > 21:
+                win = False
+                return f"You have a bust card😓, YOU LOSE! -{total_stake}$"
+            elif computer_score > 21:
+                win = True
+                return f"Computer has a bust card🤓, YOU WIN! +{total_stake}$"
+            else:
+                if user_score > computer_score:
+                    win = True
+                    return f"YOU WIN!🥳 +{total_stake}"
+                else:
+                    win = False
+                    return f"YOU LOSE!😭 -{total_stake}"
+
 win = False
 play_again = False
 total_stake = 0 
@@ -72,39 +100,13 @@ while not play_again:
         while computer_score != 21 and computer_score < 17:  # Computer draws cards until it reaches 17 or above
             computer_cards.append(deal_card())
             computer_score = calculate_score(computer_cards)
-        def compare(user_score, computer_score):
-            """Function to compare the scores and determine the winner."""
-            global win
-            global draw
-
-            if computer_score == user_score:
-                draw = 1
-                return "It's a DRAW😑"
-            elif computer_score == 21 or computer_score == 21:
-                win = False
-                return f"Computer has Blackjack😱, YOU LOSE! -{total_stake}$"
-            elif user_score == 21 or user_score == 21:
-                win = True
-                return f"You have Blackjack😲, YOU WIN! +{total_stake}$"
-            elif user_score > 21:
-                win = False
-                return f"You have a bust card😓, YOU LOSE! -{total_stake}$"
-            elif computer_score > 21:
-                win = True
-                return f"Computer has a bust card🤓, YOU WIN! +{total_stake}$"
-            else:
-                if user_score > computer_score:
-                    win = True
-                    return f"YOU WIN!🥳 +{total_stake}"
-                else:
-                    win = False
-                    return f"YOU LOSE!😭 -{total_stake}"
+            score = compare(user_score, computer_score)
 
         os.system('cls')  # Clearing the screen before displaying results
         print(art.logo)
         print(f"Your cards are: {user_cards}, sum = {user_score}")
         print(f"Computer's cards are: {computer_cards}, sum = {computer_score}")
-        print(compare(user_score, computer_score))
+        print(score)
 
         again = input("Do you want to play again, 'yes' or 'no': ")
 
