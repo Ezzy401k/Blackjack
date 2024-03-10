@@ -2,11 +2,13 @@ import random
 import os
 import art
 
+
 def deal_card():
     """Function to deal a random card from the deck."""
     # A can be 11 or 1 based on the situation while J, Q, K are valued as 10.
     cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
     return random.choice(cards)
+
 
 def calculate_score(cards):
     """Function to calculate the score of a hand."""
@@ -17,37 +19,39 @@ def calculate_score(cards):
         cards.append(1)
     return sum(cards)
 
-def compare(user_score, computer_score):
-            """Function to compare the scores and determine the winner."""
-            global win
-            global draw
 
-            if computer_score == user_score:
-                draw = 1
-                return "It's a DRAW😑"
-            elif computer_score == 21 or computer_score == 21:
-                win = False
-                return f"Computer has Blackjack😱, YOU LOSE! -{total_stake}$"
-            elif user_score == 21 or user_score == 21:
-                win = True
-                return f"You have Blackjack😲, YOU WIN! +{total_stake}$"
-            elif user_score > 21:
-                win = False
-                return f"You have a bust card😓, YOU LOSE! -{total_stake}$"
-            elif computer_score > 21:
-                win = True
-                return f"Computer has a bust card🤓, YOU WIN! +{total_stake}$"
-            else:
-                if user_score > computer_score:
-                    win = True
-                    return f"YOU WIN!🥳 +{total_stake}"
-                else:
-                    win = False
-                    return f"YOU LOSE!😭 -{total_stake}"
+def compare(user_score, computer_score):
+    """Function to compare the scores and determine the winner."""
+    global win
+    global draw
+
+    if computer_score == user_score:
+        draw = 1
+        return "It's a DRAW😑"
+    elif computer_score == 21 or computer_score == 21:
+        win = False
+        return f"Computer has Blackjack😱, YOU LOSE! -{total_stake}$"
+    elif user_score == 21 or user_score == 21:
+        win = True
+        return f"You have Blackjack😲, YOU WIN! +{total_stake}$"
+    elif user_score > 21:
+        win = False
+        return f"You have a bust card😓, YOU LOSE! -{total_stake}$"
+    elif computer_score > 21:
+        win = True
+        return f"Computer has a bust card🤓, YOU WIN! +{total_stake}$"
+    else:
+        if user_score > computer_score:
+            win = True
+            return f"YOU WIN!🥳 +{total_stake}"
+        else:
+            win = False
+            return f"YOU LOSE!😭 -{total_stake}"
+
 
 win = False
 play_again = False
-total_stake = 0 
+total_stake = 0
 total_money = 10000
 draw = 0
 
@@ -74,11 +78,11 @@ while not play_again:
             user_score = calculate_score(user_cards)
             computer_score = calculate_score(computer_cards)
             print(art.logo)
-            
+
             print(f"Welcome to Blackjack! \nYou have {total_money}$ stake {total_stake}$.")
             print(f"Your cards are: {user_cards}, with a sum of: {user_score}")
             print(f"Computer's first card is: {computer_cards[0]}")
-            
+
             stake = int(input("How much money will you stake? "))
             total_stake += stake
 
@@ -114,7 +118,7 @@ while not play_again:
             os.system('cls')  # Clearing the screen for the next game
         else:
             play_again = True
-    
+
     else:
         play_again = True
         print(f"The amount you have is {total_money}$, you lost all your money!")
